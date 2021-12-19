@@ -1,37 +1,44 @@
 <script>
-	import Highlight from "svelte-highlight";
-	import typescript from "svelte-highlight/src/languages/typescript";
-	import github from "svelte-highlight/src/styles/github";
+	import Editor from "./Editor.svelte";
 
-	const code = "const add = (a: number, b: number) => a + b;";
-</script>
+	export let codeOriginal = `print("hello world" + str( 123 ))`;
+	export let black;
 
-<svelte:head>
-	{@html github}
-</svelte:head>
+	let editorOriginal;
+	let editorFormatted;
 
-<main>
-	<Highlight language={typescript} {code} />
-</main>
-
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
+	function originalCodeUpdated(event) {
+		let newCode = event.detail;
+		let codeFormatted = black(newCode);
+		if (codeFormatted) {
+			setFormattedCode(codeFormatted)
 		}
 	}
-</style>
+
+	function setFormattedCode(newCode) {
+		editorFormatted.setValue(newCode);
+	}
+
+</script>
+
+<main>
+	<div class="py-3">
+		<div class="flex gap-2">
+			<div class="flex-1">
+				<Editor
+					bind:editor={editorOriginal}
+					codeUpdated={originalCodeUpdated}
+					code={codeOriginal}
+				/>
+			</div>
+			<div class="flex-1">
+				<Editor
+					bind:editor={editorFormatted}
+					codeUpdated={() => {}}
+					code={codeOriginal}
+					readOnly="true"
+				/>
+			</div>
+		</div>
+	</div>
+</main>

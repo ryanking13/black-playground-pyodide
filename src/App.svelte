@@ -1,61 +1,77 @@
-<svelte:head>
-	<script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js" on:load={pyodideLoaded}></script>
-</svelte:head>
 <script>
-    import { onMount } from 'svelte';
-        let pyodideReady = false;
-        let mounted = false;
-		let pyodide = null;
-     
-        onMount(() => {
-            // The payment-form is ready.
-            mounted = true;
-            if (pyodideReady) {
-                initializePyodide();
-            }
-        });
- 
-        function pyodideLoaded() {
-            // The external Stripe javascript is ready.
-            pyodideReady = true;
-            if (mounted) {
-                initializePyodide();
-            }
-        }
- 
-        async function initializePyodide() {
-			pyodide = await loadPyodide({
-				indexURL : "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/"
-		  	});
-			console.log(pyodide.runPython(`print("Hello, world!")`));
-        }
-</script>
+	import CodeArea from "./CodeArea.svelte";
+	import GithubRibbon from "./GithubRibbon.svelte";
+	import Header from "./Header.svelte";
 
+	export let pyodideIndexUrl;
+	export let githubProjectUrl;
+	export let blackWheel;
+	import { onMount } from "svelte";
+	let pyodideScriptLoaded = false;
+	let pyodideReady = false;
+	let mounted = false;
+	let pyodide = null;
 
+	onMount(() => {
+		mounted = true;
+		if (pyodideScriptLoaded) {
+			initializePyodide();
+		}
+	});
 
-<main>
-	<h1>Black playground</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
+	function pyodideLoaded() {
+		pyodideScriptLoaded = true;
+		if (mounted) {
+			initializePyodide();
 		}
 	}
+
+	async function initializePyodide() {
+		pyodide = await loadPyodide({
+			indexURL: pyodideIndexUrl,
+		});
+		await installBlack();
+		pyodideReady = true;
+	}
+
+	async function installBlack() {
+		await pyodide.loadPackage("micropip");
+		pyodide.runPythonAsync(`
+			import micropip
+			await micropip.install("wheel/${blackWheel}")
+			import black
+			from base64 import b64decode
+		`);
+	}
+	function runBlack(code) {
+		if (!pyodideReady) {
+			return code;
+		}
+
+		let encodedCode = btoa(code);
+		return pyodide.runPython(`
+			code = b64decode("${encodedCode}").decode("utf-8")
+			try:
+				code = black.format_str(code, mode=black.Mode())
+			except:
+				code = None
+			code
+		`);
+	}
+</script>
+
+<svelte:head>
+	<script src="{pyodideIndexUrl}pyodide.js" on:load={pyodideLoaded}></script>
+</svelte:head>
+
+<main>
+	<GithubRibbon {githubProjectUrl} />
+	<Header />
+	<CodeArea black={runBlack} />
+</main>
+
+<style global lang="postcss">
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
 </style>
