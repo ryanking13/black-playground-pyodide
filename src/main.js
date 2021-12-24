@@ -1,12 +1,12 @@
 import App from './App.svelte';
 
 const app = new App({
-	target: document.body,
-	props: {
-		pyodideIndexUrl: "https://cdn.jsdelivr.net/pyodide/v0.18.1/full/",
-		githubProjectUrl: "https://github.com/ryanking13/black-playground",
-		blackWheel: "black-21.10b1.dev16+gb3f3678-py3-none-any.whl",
-		placeholderCode: `# Black Playground powered by Pyodide!
+  target: document.body,
+  props: {
+    pyodideIndexUrl: 'https://cdn.jsdelivr.net/pyodide/v0.18.1/full/',
+    githubProjectUrl: 'https://github.com/ryanking13/black-playground',
+    blackWheel: 'black-21.10b1.dev16+gb3f3678-py3-none-any.whl',
+    placeholderCode: `# Black Playground powered by Pyodide!
 from pyodide import hello, Pyodide
 
 x = {  'a':37,'b':42,
@@ -48,8 +48,8 @@ regular_formatting = [
     3,  4,  5,
     6,  7,  8,
 ]
-`
-	}
+`,
+  },
 });
 
 export default app;

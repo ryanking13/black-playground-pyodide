@@ -1,6 +1,5 @@
 <script>
-	import { onMount } from "svelte";
-	import { createEventDispatcher } from "svelte";
+	import { onMount, createEventDispatcher } from "svelte";
 	import CodeMirror from "codemirror";
 
 	const dispatch = createEventDispatcher();
@@ -25,18 +24,18 @@
 		let height = isNaN(window.innerHeight)
 			? window.clientHeight
 			: window.innerHeight;
-		return height;		
+		return height;
 	}
 
 	function resizeEditor() {
 		let height = calcEditorHeight();
-		editor.setSize(null, height- 100);
+		editor.setSize(null, height - 100);
 	}
 
 	function createEditor(options) {
 		if (editor) element.innerHTML = "";
 		editor = CodeMirror(element, options);
-		resizeEditor()
+		resizeEditor();
 
 		editor.on("cursorActivity", (event) => {
 			dispatch("activity", event);

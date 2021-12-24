@@ -3,11 +3,13 @@
 	import GithubRibbon from "./GithubRibbon.svelte";
 	import Header from "./Header.svelte";
 
+	import { onMount } from "svelte";
+
 	export let pyodideIndexUrl;
 	export let githubProjectUrl;
 	export let blackWheel;
 	export let placeholderCode;
-	import { onMount } from "svelte";
+
 	let pyodideScriptLoaded = false;
 	let pyodideReady = false;
 	let mounted = false;

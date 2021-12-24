@@ -2,15 +2,15 @@
 	import Editor from "./Editor.svelte";
 
 	export let black;
-	export let placeholder = `print("hello world" + str( 123 ))`;
+	export let placeholder = 'print("hello world" + str( 123 ))';
 	export let codeOriginal = placeholder;
 
 	let editorOriginal;
 	let editorFormatted;
 
 	function originalCodeUpdated(event) {
-		let newCode = event.detail;
-		let codeFormatted = black(newCode);
+		const newCode = event.detail;
+		const codeFormatted = black(newCode);
 		if (codeFormatted) {
 			setFormattedCode(codeFormatted);
 		}

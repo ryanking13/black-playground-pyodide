@@ -14,8 +14,7 @@
         theme: "material-darker",
     };
 
-    export let editor;
-    
+    export let editor = "";
 </script>
 
 <CodeMirror on:change={codeUpdated} bind:editor {options} class="editor" />
