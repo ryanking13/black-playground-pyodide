@@ -2,7 +2,7 @@
     export let githubProjectUrl;
 </script>
 
-<main>
+<div class="ribbon">
     <a
         href={githubProjectUrl}
         class="github-corner"
@@ -25,7 +25,7 @@
             /></svg
         ></a
     >
-</main>
+</div>
 
 <style>
     .github-corner:hover .octo-arm {

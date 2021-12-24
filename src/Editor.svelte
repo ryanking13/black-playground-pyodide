@@ -1,5 +1,6 @@
 <script>
     import "codemirror/mode/python/python";
+    import "codemirror/theme/material-darker.css";
     import CodeMirror from "./CodeMirror/index";
     export let code;
     export let codeUpdated;
@@ -10,8 +11,11 @@
         lineNumbers: true,
         value: code,
         readOnly: readOnly,
+        theme: "material-darker",
     };
+
     export let editor;
+    
 </script>
 
 <CodeMirror on:change={codeUpdated} bind:editor {options} class="editor" />

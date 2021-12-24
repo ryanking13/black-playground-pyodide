@@ -21,17 +21,31 @@
 		createEditor(options);
 	}
 
+	function calcEditorHeight() {
+		let height = isNaN(window.innerHeight)
+			? window.clientHeight
+			: window.innerHeight;
+		return height;		
+	}
+
+	function resizeEditor() {
+		let height = calcEditorHeight();
+		editor.setSize(null, height- 100);
+	}
+
 	function createEditor(options) {
 		if (editor) element.innerHTML = "";
-
 		editor = CodeMirror(element, options);
+		resizeEditor()
+
 		editor.on("cursorActivity", (event) => {
 			dispatch("activity", event);
 		});
 		editor.on("change", () => {
 			dispatch("change", editor.getValue());
 		});
-		// More events could be set up here
+
+		window.addEventListener("resize", resizeEditor);
 	}
 </script>
 

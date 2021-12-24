@@ -1,8 +1,9 @@
 <script>
 	import Editor from "./Editor.svelte";
 
-	export let codeOriginal = `print("hello world" + str( 123 ))`;
 	export let black;
+	export let placeholder = `print("hello world" + str( 123 ))`;
+	export let codeOriginal = placeholder;
 
 	let editorOriginal;
 	let editorFormatted;
@@ -11,19 +12,18 @@
 		let newCode = event.detail;
 		let codeFormatted = black(newCode);
 		if (codeFormatted) {
-			setFormattedCode(codeFormatted)
+			setFormattedCode(codeFormatted);
 		}
 	}
 
 	function setFormattedCode(newCode) {
 		editorFormatted.setValue(newCode);
 	}
-
 </script>
 
-<main>
-	<div class="py-3">
-		<div class="flex gap-2">
+<div class="codearea">
+	<div class="py-5 px-3">
+		<div class="flex gap-3">
 			<div class="flex-1">
 				<Editor
 					bind:editor={editorOriginal}
@@ -41,4 +41,4 @@
 			</div>
 		</div>
 	</div>
-</main>
+</div>

@@ -6,6 +6,7 @@
 	export let pyodideIndexUrl;
 	export let githubProjectUrl;
 	export let blackWheel;
+	export let placeholderCode;
 	import { onMount } from "svelte";
 	let pyodideScriptLoaded = false;
 	let pyodideReady = false;
@@ -53,8 +54,8 @@
 			code = b64decode("${encodedCode}").decode("utf-8")
 			try:
 				code = black.format_str(code, mode=black.Mode())
-			except:
-				code = None
+			except Exception as e:
+				code = str(e)
 			code
 		`);
 	}
@@ -67,7 +68,7 @@
 <main>
 	<GithubRibbon {githubProjectUrl} />
 	<Header />
-	<CodeArea black={runBlack} />
+	<CodeArea black={runBlack} placeholder={placeholderCode} />
 </main>
 
 <style global lang="postcss">
