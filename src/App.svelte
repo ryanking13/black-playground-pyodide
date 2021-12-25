@@ -2,6 +2,8 @@
 	import CodeArea from "./CodeArea.svelte";
 	import GithubRibbon from "./GithubRibbon.svelte";
 	import Header from "./Header.svelte";
+	import Modal from 'svelte-simple-modal';
+	import Loading from "./Loading/LoadingModal.svelte";
 
 	import { onMount } from "svelte";
 
@@ -14,6 +16,8 @@
 	let pyodideReady = false;
 	let mounted = false;
 	let pyodide = null;
+
+	let loadingModal;
 
 	onMount(() => {
 		mounted = true;
@@ -30,11 +34,13 @@
 	}
 
 	async function initializePyodide() {
+		loadingModal.openLoading();
 		pyodide = await loadPyodide({
 			indexURL: pyodideIndexUrl,
 		});
 		await installBlack();
 		pyodideReady = true;
+		loadingModal.closeLoading();
 	}
 
 	async function installBlack() {
@@ -68,6 +74,9 @@
 </svelte:head>
 
 <main>
+	<Modal>
+		<Loading bind:this={loadingModal}/>
+	</Modal>
 	<GithubRibbon {githubProjectUrl} />
 	<Header />
 	<CodeArea black={runBlack} placeholder={placeholderCode} />
