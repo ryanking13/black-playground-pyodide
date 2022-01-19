@@ -23,15 +23,15 @@
 
 <div class="codearea">
 	<div class="py-5 px-3">
-		<div class="flex gap-3">
-			<div class="flex-1">
+		<div class="flex flex-nowrap gap-3">
+			<div class="flex-auto">
 				<Editor
 					bind:editor={editorOriginal}
 					codeUpdated={originalCodeUpdated}
 					code={codeOriginal}
 				/>
 			</div>
-			<div class="flex-1">
+			<div class="flex-auto">
 				<Editor
 					bind:editor={editorFormatted}
 					codeUpdated={() => {}}

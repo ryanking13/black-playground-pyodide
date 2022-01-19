@@ -31,7 +31,7 @@
 
 	function resizeEditor() {
 		let height = calcEditorHeight();
-		editor.setSize(null, height - 100);
+		editor.setSize("100%", height - 100);
 	}
 
 	function createEditor(options) {
