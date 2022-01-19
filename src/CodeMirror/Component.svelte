@@ -14,9 +14,9 @@
 
 	let element;
 
-	onMount(() => {
-		createEditor();
-	});
+	// onMount(() => {
+	// 	createEditor(options);
+	// });
 
 	$: if (element) {
 		createEditor(options);
