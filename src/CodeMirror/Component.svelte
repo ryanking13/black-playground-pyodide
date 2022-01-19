@@ -7,7 +7,9 @@
 	let classes = "";
 
 	export let editor = null;
-	export let options = {};
+	export let options = {
+		width: "100%",
+	};
 	export { classes as class };
 
 	let element;
