@@ -1,5 +1,5 @@
 <script>
-    export const githubProjectUrl = "";
+    export let githubProjectUrl = "";
 </script>
 
 <div class="ribbon">
